@@ -14,7 +14,7 @@ data:
       json.keys_under_root: true
       json.ignore_decoding_error: true
       paths:
-        - /var/log/curielogger/*.log
+        - /var/log/curielogger/*.log*
 
     output.elasticsearch:
       hosts: "${ELASTICSEARCH_URL}"
