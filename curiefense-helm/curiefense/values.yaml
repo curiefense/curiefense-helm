@@ -41,6 +41,8 @@ global:
     docker_tag: 'main'
     redis_port: 6379
     uiserver_enable_tls: false
+    uiserver_domain: ""
+    uiserver_annotations: {}
 
   requests:
     cpu:

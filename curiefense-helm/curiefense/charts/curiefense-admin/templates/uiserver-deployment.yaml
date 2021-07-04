@@ -32,13 +32,6 @@ spec:
           httpGet:
             path: /
             port: uiserver-http
-        volumeMounts:
-{{- if .Values.global.settings.uiserver_enable_tls }}
-        - mountPath: /run/secrets/uisslcrt
-          name: uisslcrt
-        - mountPath: /run/secrets/uisslkey
-          name: uisslkey
-{{- end }}
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
         resources:
           limits:
@@ -49,21 +42,6 @@ spec:
             cpu: {{ .Values.global.requests.cpu.uiserver }}
       restartPolicy: Always
       serviceAccountName: ""
-      volumes:
-{{- if .Values.global.settings.uiserver_enable_tls }}
-      - name: uisslcrt
-        secret:
-          items:
-          - key: uisslcrt
-            path: uisslcrt
-          secretName: uisslcrt
-      - name: uisslkey
-        secret:
-          items:
-          - key: uisslkey
-            path: uisslkey
-          secretName: uisslkey
-{{- end }}
 {{- if .Values.global.tolerations }}
       tolerations:
 {{ toYaml .Values.global.tolerations | indent 8 }}
