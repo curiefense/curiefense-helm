@@ -10,6 +10,9 @@ spec:
   - name: "9001"
     port: 9001
     targetPort: 9001
+  - name: "9514"
+    port: 9514
+    targetPort: 9514
   - name: "2112"
     port: 2112
     targetPort: 2112

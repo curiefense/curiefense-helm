@@ -84,6 +84,8 @@ spec:
           - --
 {{- end }}
         ports:
+        - containerPort: 9514
+          name: logger-rsyslog
         - containerPort: 9001
           name: logger-grpc
         - containerPort: 2112
