@@ -151,7 +151,7 @@
               "type": "keyword"
             },
             "headers": {
-              "type": "keyword"
+              "type": "flattened"
             },
             "headersbytes": {
               "type": "integer"
