@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: curielogger
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   host: curielogger.{{ .Release.Namespace }}.svc.cluster.local
   trafficPolicy:

@@ -4,6 +4,7 @@ kind: StatefulSet
 metadata:
   labels:
     app.kubernetes.io/name: confserver
+    app.kubernetes.io/part-of: "curiefense"
   name: confserver
   namespace: {{ .Release.Namespace }}
 spec:
@@ -18,6 +19,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: confserver
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       initContainers:
         - name: bootstrap-deploy

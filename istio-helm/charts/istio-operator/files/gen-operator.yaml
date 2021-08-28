@@ -7,6 +7,7 @@ metadata:
   labels:
     istio-operator-managed: Reconcile
     istio-injection: disabled
+    app.kubernetes.io/part-of: "curiefense"
 ---
 # Source: istio-operator/templates/service_account.yaml
 apiVersion: v1
@@ -14,6 +15,8 @@ kind: ServiceAccount
 metadata:
   namespace: istio-operator
   name: istio-operator
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 ---
 # Source: istio-operator/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -21,6 +24,8 @@ kind: ClusterRole
 metadata:
   creationTimestamp: null
   name: istio-operator
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 rules:
 # istio groups
 - apiGroups:
@@ -136,6 +141,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: istio-operator
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 subjects:
 - kind: ServiceAccount
   name: istio-operator
@@ -152,6 +159,7 @@ metadata:
   namespace: istio-operator
   labels:
     name: istio-operator
+    app.kubernetes.io/part-of: "curiefense"
   name: istio-operator
 spec:
   ports:
@@ -168,6 +176,8 @@ kind: Deployment
 metadata:
   namespace: istio-operator
   name: istio-operator
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   replicas: 1
   selector:
@@ -177,6 +187,7 @@ spec:
     metadata:
       labels:
         name: istio-operator
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       serviceAccountName: istio-operator
       containers:

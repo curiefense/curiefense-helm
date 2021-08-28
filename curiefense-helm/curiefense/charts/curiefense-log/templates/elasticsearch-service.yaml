@@ -5,6 +5,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/part-of: "curiefense"
   name: elasticsearch
   namespace: {{ .Release.Namespace }}
 spec:

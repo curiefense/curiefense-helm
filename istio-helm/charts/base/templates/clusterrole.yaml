@@ -5,6 +5,7 @@ metadata:
   labels:
     app: istiod
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 rules:
   # sidecar injection controller
   - apiGroups: ["admissionregistration.k8s.io"]
@@ -111,6 +112,7 @@ metadata:
   labels:
     app: istio-reader
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 rules:
   - apiGroups:
       - "config.istio.io"

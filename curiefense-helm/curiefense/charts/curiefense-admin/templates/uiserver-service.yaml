@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: uiserver
+    app.kubernetes.io/part-of: "curiefense"
   name: uiserver
   namespace: {{ .Release.Namespace }}
 spec:

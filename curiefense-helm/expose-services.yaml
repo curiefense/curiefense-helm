@@ -6,6 +6,7 @@ kind: Service
 metadata:
   labels:
     app: uiserver-nodeport-http
+    app.kubernetes.io/part-of: "curiefense"
   name: uiserver-nodeport-http
   namespace: curiefense
 spec:
@@ -30,6 +31,7 @@ kind: Service
 metadata:
   labels:
     app: grafana-nodeport
+    app.kubernetes.io/part-of: "curiefense"
   name: grafana-nodeport
   namespace: curiefense
 spec:
@@ -49,6 +51,7 @@ kind: Service
 metadata:
   labels:
     app: confserver-nodeport
+    app.kubernetes.io/part-of: "curiefense"
   name: confserver-nodeport
   namespace: curiefense
 spec:
@@ -68,6 +71,7 @@ kind: Service
 metadata:
   labels:
     app: kibana-nodeport
+    app.kubernetes.io/part-of: "curiefense"
   name: kibana-nodeport
   namespace: curiefense
 spec:
@@ -87,6 +91,7 @@ kind: Service
 metadata:
   labels:
     app: es-nodeport
+    app.kubernetes.io/part-of: "curiefense"
   name: es-nodeport
   namespace: curiefense
 spec:

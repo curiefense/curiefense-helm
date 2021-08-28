@@ -6,6 +6,8 @@ kind: ConfigMap
 metadata:
   name: filebeat-configmap
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 data:
   filebeat.yml: |-
     filebeat.inputs:

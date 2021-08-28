@@ -4,12 +4,15 @@ metadata:
   name: echoserver
   labels:
     istio-injection: enabled
+    app.kubernetes.io/part-of: "curiefense"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echoserver
   namespace: echoserver
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   replicas: 1
   selector:
@@ -19,6 +22,7 @@ spec:
     metadata:
       labels:
         app: echoserver
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       containers:
       - image: gcr.io/google_containers/echoserver:1.0
@@ -35,6 +39,7 @@ metadata:
   labels:
     app: echoserver
     service: echoserver
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   ports:
   - port: 8080
@@ -47,6 +52,8 @@ kind: Gateway
 metadata:
   name: echoserver-gateway
   namespace: echoserver
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -63,6 +70,8 @@ kind: VirtualService
 metadata:
   name: echoserver
   namespace: echoserver
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   hosts:
   - "*"

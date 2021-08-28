@@ -6,6 +6,8 @@ kind: ConfigMap
 metadata:
   name: logstash-configmap
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 data:
   pipelines.yml: |-
     - pipeline.id: input

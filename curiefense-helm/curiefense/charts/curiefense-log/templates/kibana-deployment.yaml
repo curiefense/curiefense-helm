@@ -5,6 +5,7 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: kibana
+    app.kubernetes.io/part-of: "curiefense"
   name: kibana
   namespace: {{ .Release.Namespace }}
 spec:
@@ -17,6 +18,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: kibana
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       containers:
       - name: kibana

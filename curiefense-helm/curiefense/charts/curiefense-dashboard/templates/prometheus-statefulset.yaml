@@ -5,6 +5,7 @@ kind: StatefulSet
 metadata:
   labels:
     app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: "curiefense"
   name: prometheus
   namespace: {{ .Release.Namespace }}
 spec:
@@ -19,6 +20,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: prometheus
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       containers:
       {{ if regexMatch ".*/.*:" .Values.global.images.prometheus }}

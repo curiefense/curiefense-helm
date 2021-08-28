@@ -8,6 +8,7 @@ metadata:
     istio.io/rev: {{ .Values.revision | default "default" }}
     install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
     operator.istio.io/component: "Cni"
+    app.kubernetes.io/part-of: "curiefense"
 rules:
 - apiGroups: [""]
   resources:
@@ -24,6 +25,7 @@ metadata:
   labels:
     app: istio-cni
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 rules:
 - apiGroups: [""]
   resources: ["pods"]
@@ -41,6 +43,7 @@ metadata:
   labels:
     app: istio-cni
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 rules:
   - apiGroups: [""]
     resources: ["pods"]

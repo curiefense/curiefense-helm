@@ -6,6 +6,8 @@ kind: Service
 metadata:
   name: istiod-remote
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   ports:
   - port: 15012
@@ -19,6 +21,8 @@ kind: Service
 metadata:
   name: istiod
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   ports:
   - port: 15012

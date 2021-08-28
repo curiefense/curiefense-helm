@@ -6,6 +6,7 @@ kind: Secret
 metadata:
   labels:
     app.kubernetes.io/name: uisslkey
+    app.kubernetes.io/part-of: "curiefense"
   name: uisslkey
   namespace: curiefense
 type: Opaque
@@ -17,6 +18,7 @@ kind: Secret
 metadata:
   labels:
     app.kubernetes.io/name: uisslcrt
+    app.kubernetes.io/part-of: "curiefense"
   name: uisslcrt
   namespace: curiefense
 type: Opaque

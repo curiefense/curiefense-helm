@@ -5,6 +5,8 @@ kind: EnvoyFilter
 metadata:
   name: curiefense-access-logs-filter
   namespace: istio-system
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   workloadSelector:
     labels:

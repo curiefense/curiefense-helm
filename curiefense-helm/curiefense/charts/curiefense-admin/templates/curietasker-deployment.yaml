@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: curietasker
+    app.kubernetes.io/part-of: "curiefense"
   name: curietasker
   namespace: {{ .Release.Namespace }}
 spec:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: curietasker
+        app.kubernetes.io/part-of: "curiefense"
     spec:
       containers:
       - name: curietasker

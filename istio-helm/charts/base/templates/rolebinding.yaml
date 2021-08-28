@@ -6,6 +6,7 @@ metadata:
   labels:
     app: istiod
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

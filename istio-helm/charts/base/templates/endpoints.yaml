@@ -5,6 +5,8 @@ kind: Endpoints
 metadata:
   name: istiod-remote
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 subsets:
 - addresses:
   - ip: {{ .Values.global.remotePilotAddress }}
@@ -18,6 +20,8 @@ kind: Endpoints
 metadata:
   name: istiod
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 subsets:
 - addresses:
   - ip: {{ .Values.global.remotePilotAddress }}

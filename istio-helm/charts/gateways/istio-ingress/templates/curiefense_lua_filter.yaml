@@ -5,6 +5,8 @@ kind: EnvoyFilter
 metadata:
   name: curiefense-lua-filter
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   workloadSelector:
     labels:

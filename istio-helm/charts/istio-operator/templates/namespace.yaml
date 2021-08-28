@@ -5,4 +5,5 @@ metadata:
   labels:
     istio-operator-managed: Reconcile
     istio-injection: disabled
+    app.kubernetes.io/part-of: "curiefense"
 ---

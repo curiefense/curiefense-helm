@@ -5,6 +5,7 @@ metadata:
   name: uiserver
   labels:
     app.kubernetes.io/name: uiserver
+    app.kubernetes.io/part-of: "curiefense"
   annotations:
     {{- range $key, $value := .Values.global.settings.uiserver_ingress_annotations }}
     {{ $key }}: {{ $value | quote }}
