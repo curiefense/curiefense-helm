@@ -1,5 +1,10 @@
 global:
   imagePullPolicy: Always
+
+  proxy:
+    # Frontend proxy used in the cluster: istio, nginx, etc.
+    frontend: "istio"
+
   images:
     confserver: curiefense/confserver
     curielogger: curiefense/curielogger
