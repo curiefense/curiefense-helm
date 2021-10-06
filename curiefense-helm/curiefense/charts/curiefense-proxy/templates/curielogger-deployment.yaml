@@ -109,6 +109,8 @@ spec:
             mountPath: /var/log/curielogger
 {{- end }}
       restartPolicy: Always
+      imagePullSecrets:
+        {{- .Values.global.imagePullSecrets | toYaml | nindent 8  }}
       serviceAccountName: ""
 {{- if .Values.global.tolerations }}
       tolerations:

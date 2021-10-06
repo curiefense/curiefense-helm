@@ -115,6 +115,8 @@ spec:
         command: ["/usr/bin/dumb-init", "/bin/bash", "/init/start_uwsgi.sh"]
       restartPolicy: Always
       serviceAccountName: ""
+      imagePullSecrets:
+        {{- .Values.global.imagePullSecrets | toYaml | nindent 8  }}
       volumes:
 {{- if eq .Values.global.settings.curiefense_bucket_type "s3" }}
       - name: s3cfg
