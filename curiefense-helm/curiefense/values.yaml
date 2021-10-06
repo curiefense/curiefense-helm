@@ -1,4 +1,6 @@
 global:
+  imagePullSecrets: []
+
   imagePullPolicy: Always
 
   proxy:

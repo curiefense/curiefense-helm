@@ -34,6 +34,8 @@ spec:
             memory: "100Mi"
             cpu: {{ .Values.global.requests.cpu.curietasker }}
       restartPolicy: Always
+      imagePullSecrets:
+        {{- .Values.global.imagePullSecrets | toYaml | nindent 8  }}
       serviceAccountName: ""
 {{- if .Values.global.tolerations }}
       tolerations:
