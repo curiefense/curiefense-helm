@@ -1,0 +1,96 @@
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+{{- if .Values.global.enable.minio }}
+---
+# Simple minio server, for testing purposes.
+# admin user & password are default: do not expose this service
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/part-of: "curiefense"
+  name: minio
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  serviceName: minio-hl
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minio
+        app.kubernetes.io/part-of: "curiefense"
+    spec:
+      initContainers:
+        - name: minio-init
+          image: {{ .Values.global.images.minio }}
+          volumeMounts:
+          - mountPath: /data
+            name: persistent-minio
+          - mountPath: /run/secrets/miniocfg
+            name: miniocfg
+          command:
+            - /bin/bash
+            - -c
+            - --
+          args:
+            - mkdir -p /data/curiefense-minio-bucket
+            # attempt to create a non-default service account -- does not work yet
+            # - mkdir -p /data/.minio.sys/config/iam/service-accounts/$(grep '^access_key' /var/run/secrets/miniocfg/miniocfg|cut -c14-)/; mkdir -p /data/curiefense-minio-bucket; echo "{\"version\":1,\"credentials\":{\"accessKey\":\"ACCESSKEY\",\"secretKey\":\"SECRETKEY\",\"expiration\":\"1970-01-01T00:00:00Z\",\"status\":\"on\",\"parentUser\":\"minioadmin\"}}" | sed -e "s/ACCESSKEY/$(grep '^access_key' /var/run/secrets/miniocfg/miniocfg|cut -c14-)/" -e "s/SECRETKEY/$(grep '^secret_key' /var/run/secrets/miniocfg/miniocfg|cut -c14-)/" > /data/.minio.sys/config/iam/service-accounts/$(grep '^access_key' /var/run/secrets/miniocfg/miniocfg|cut -c14-)/identity.json
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "1"
+            requests:
+              memory: "100Mi"
+              cpu: {{ .Values.global.requests.cpu.minio_init }}
+      containers:
+      - name: minio
+        env:
+        image: {{ .Values.global.images.minio }}
+        volumeMounts:
+        - mountPath: /data
+          name: persistent-minio
+        - mountPath: /run/secrets/miniocfg
+          name: miniocfg
+        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+          requests:
+            memory: "100Mi"
+            cpu: {{ .Values.global.requests.cpu.minio }}
+        command: ["minio", "server", "/data/", "--console-address", ":9001"]
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: miniocfg
+        secret:
+          items:
+          - key: miniocfg
+            path: miniocfg
+          secretName: miniocfg
+      - name: uwsgi-socket
+        emptyDir: {}
+{{- if .Values.global.tolerations }}
+      tolerations:
+{{ toYaml .Values.global.tolerations | indent 8 }}
+{{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: persistent-minio
+    spec:
+      storageClassName: {{ .Values.global.storage.storage_class_name }}
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.global.storage.minio_storage_size }}
+{{- end }}
+{{- end }}
