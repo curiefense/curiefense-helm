@@ -13,10 +13,10 @@ global:
     curietasker: curiefense/curietasker
     redis: curiefense/redis
     uiserver: curiefense/uiserver
-    curiesync: curiefense/curiesync
     grafana: curiefense/grafana
     prometheus: curiefense/prometheus
     fluentd: curiefense/fluentd
+    minio: minio/minio:RELEASE.2021-10-13T00-23-17Z
 
   storage:
     # use the default storage class if null
@@ -26,6 +26,7 @@ global:
     elasticsearch_storage_size: '10Gi'
     prometheus_storage_size: '1Gi'
     redis_storage_size: '1Gi'
+    minio_storage_size: '1Gi'
 
   settings:
     curiefense_metrics_prometheus_enabled: true
@@ -41,8 +42,12 @@ global:
     curiefense_fluentd_url: 'http://fluentd:5001/'
     # change curiefense_kibana_url if you supply your own kibana server.
     curiefense_kibana_url: 'http://kibana:5601/'
-    # supported types: 's3', 'gs', 'local-bucket'
+    # supported types: 's3', 'gs', 'local-bucket', 'minio'
     curiefense_bucket_type: 's3'
+    # minio hostname and port, when curiefense_bucket_type is minio
+    curiefense_minio_host: 'minio:9000'
+    # set to true to disable TLS for minio, for testing environments
+    curiefense_minio_insecure: false
     curiefense_es_index_name: 'curieaccesslog'
     # docker_tag will be overridden by deploy.sh
     docker_tag: 'main'
@@ -65,6 +70,8 @@ global:
       prometheus: "100m"
       grafana: "20m"
       elasticsearch: "1"
+      minio_init: "100m"
+      minio: "200m"
 
   enable:
     # set to false to disable parts of this deployment, ex. if you prefer to use your own versions
@@ -75,8 +82,4 @@ global:
     fluentd: true
     logstash: true
     filebeat: true
-
-  curielogger:
-    extraEnv: []
-    extraVolumes: []
-    extraVolumeMounts: []
+    minio: true

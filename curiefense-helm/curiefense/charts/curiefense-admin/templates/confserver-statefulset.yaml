@@ -52,6 +52,14 @@ spec:
           value: "yes"
         - name: CURIE_BUCKET_LINK
           value: {{ .Values.global.settings.curieconf_manifest_url }}
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+        - name: CURIE_MINIO_HOST
+          value: {{ .Values.global.settings.curiefense_minio_host }}
+{{- if .Values.global.settings.curiefense_minio_insecure }}
+        - name: CURIE_MINIO_SECURE
+          value: "FALSE"
+{{- end }}
+{{- end }}
         {{ if regexMatch ".*/.*:" .Values.global.images.confserver }}
         {{/* The image name contains a version tag (e.g. for tests), do not append docker_tag */}}
         image: {{ .Values.global.images.confserver }}
@@ -81,6 +89,14 @@ spec:
         env:
         - name: CURIE_BUCKET_LINK
           value: {{ .Values.global.settings.curieconf_manifest_url }}
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+        - name: CURIE_MINIO_HOST
+          value: {{ .Values.global.settings.curiefense_minio_host }}
+{{- if .Values.global.settings.curiefense_minio_insecure }}
+        - name: CURIE_MINIO_SECURE
+          value: "FALSE"
+{{- end }}
+{{- end }}
         {{ if regexMatch ".*/.*:" .Values.global.images.confserver }}
         {{/* The image name contains a version tag (e.g. for tests), do not append docker_tag */}}
         image: {{ .Values.global.images.confserver }}
@@ -101,6 +117,10 @@ spec:
 {{- if eq .Values.global.settings.curiefense_bucket_type "local-bucket" }}
         - mountPath: /bucket
           name: local-bucket
+{{- end }}
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+        - mountPath: /run/secrets/miniocfg
+          name: miniocfg
 {{- end }}
         - mountPath: /config
           name: persistent-confdb
@@ -139,6 +159,14 @@ spec:
         hostPath:
           path: /bucket
           type: DirectoryOrCreate
+{{- end }}
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+      - name: miniocfg
+        secret:
+          items:
+          - key: miniocfg
+            path: miniocfg
+          secretName: miniocfg
 {{- end }}
       - name: uwsgi-socket
         emptyDir: {}

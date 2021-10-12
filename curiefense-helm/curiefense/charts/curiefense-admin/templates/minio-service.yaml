@@ -1,0 +1,23 @@
+{{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
+{{- if .Values.global.enable.minio }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/part-of: "curiefense"
+  name: minio
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - name: "minio-api"
+    port: 9000
+    targetPort: 9000
+  - name: "minio-gui"
+    port: 9001
+    targetPort: 9001
+  selector:
+    app.kubernetes.io/name: minio
+{{- end }}
+{{- end }}

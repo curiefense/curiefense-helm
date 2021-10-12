@@ -238,8 +238,12 @@ global:
     gw_image: curiefense/curieproxy-istio
     curiesync_image: curiefense/curiesync
     curieconf_manifest_url: "s3://curiefense-test01/prod/manifest.json"
-    # allowed values: "s3", "gs", "local-bucket"
+    # allowed values: "s3", "gs", "local-bucket", "minio"
     curiefense_bucket_type: "s3"
+    # minio hostname and port, when curiefense_bucket_type is minio
+    curiefense_minio_host: "minio.curiefense:9000"
+    # set to true to disable TLS for minio, for testing environments
+    curiefense_minio_insecure: false
     # namespace where curiefense components are running (redis, curielogger)
     curiefense_namespace: "curiefense"
     # typically "redis.$curiefense_namespace", can be changed to use an external redis instance
