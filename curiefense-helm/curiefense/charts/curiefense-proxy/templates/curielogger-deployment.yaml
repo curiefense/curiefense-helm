@@ -1,3 +1,4 @@
+{{- $curielogger := default .Values.global.curielogger (fromYaml "{}") -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,6 +48,9 @@ spec:
 {{- end }}
       - name: curielogger
         env:
+{{- if $curielogger.extraEnv }}
+{{ $curielogger.extraEnv | toYaml | indent 8 }}
+{{- end }}
         - name: CURIELOGGER_METRICS_PROMETHEUS_ENABLED
           value: "{{ .Values.global.settings.curiefense_metrics_prometheus_enabled }}"
         - name: ELASTICSEARCH_URL
@@ -103,8 +107,11 @@ spec:
           requests:
             memory: "20Mi"
             cpu: {{ .Values.global.requests.cpu.curielogger }}
-{{- if eq .Values.global.settings.curiefense_es_forwarder "filebeat" }}
         volumeMounts:
+{{- if $curielogger.extraVolumeMounts }}
+{{ toYaml $curielogger.extraVolumeMounts | indent 10 }}
+{{- end }}
+{{- if eq .Values.global.settings.curiefense_es_forwarder "filebeat" }}
           - name: curielogger
             mountPath: /var/log/curielogger
 {{- end }}
@@ -116,8 +123,11 @@ spec:
       tolerations:
 {{ toYaml .Values.global.tolerations | indent 8 }}
 {{- end }}
-{{- if eq .Values.global.settings.curiefense_es_forwarder "filebeat" }}
       volumes:
+{{- if $curielogger.extraVolumes }}
+{{ toYaml $curielogger.extraVolumes | indent 6 }}
+{{- end }}
+{{- if eq .Values.global.settings.curiefense_es_forwarder "filebeat" }}
       - name: curielogger
         emptyDir: {}
       - name: filebeat-configmap

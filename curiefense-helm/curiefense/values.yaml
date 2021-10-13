@@ -75,3 +75,8 @@ global:
     fluentd: true
     logstash: true
     filebeat: true
+
+  curielogger:
+    extraEnv: []
+    extraVolumes: []
+    extraVolumeMounts: []
