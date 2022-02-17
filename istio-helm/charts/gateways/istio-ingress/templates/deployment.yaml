@@ -146,7 +146,7 @@ spec:
           - mountPath: /run/secrets/miniocfg
             name: miniocfg
 {{- end }}
-          - mountPath: /config
+          - mountPath: /cf-config
             name: curiefense-config
 {{- end }}
       containers:
@@ -197,7 +197,7 @@ spec:
           - mountPath: /run/secrets/miniocfg
             name: miniocfg
 {{- end }}
-          - mountPath: /config
+          - mountPath: /cf-config
             name: curiefense-config
 {{- end }}
         - name: istio-proxy
@@ -371,7 +371,7 @@ spec:
           volumeMounts:
           {{- if $gateway.waf.enabled }}
           - name: curiefense-config
-            mountPath: /config
+            mountPath: /cf-config
           {{- end }}
           - name: istio-envoy
             mountPath: /etc/istio/proxy
