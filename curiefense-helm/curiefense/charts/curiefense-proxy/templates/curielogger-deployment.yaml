@@ -123,6 +123,10 @@ spec:
       tolerations:
 {{ toYaml .Values.global.tolerations | indent 8 }}
 {{- end }}
+{{- if .Values.global.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.global.nodeSelector | indent 8 }}
+{{- end }}
       volumes:
 {{- if $curielogger.extraVolumes }}
 {{ toYaml $curielogger.extraVolumes | indent 6 }}

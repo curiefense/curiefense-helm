@@ -1,4 +1,36 @@
 {{- if .Values.global.settings.uiserver_domain }}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uiserver
+  labels:
+    app.kubernetes.io/name: uiserver
+    app.kubernetes.io/part-of: "curiefense"
+  annotations:
+    {{- range $key, $value := .Values.global.settings.uiserver_ingress_annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.global.settings.uiserver_ingress_class_name | default "" }}
+{{- if .Values.global.settings.uiserver_enable_tls }}
+  tls:
+  - hosts:
+    - {{ .Values.global.settings.uiserver_domain }}
+    secretName: {{ .Values.global.settings.uiserver_domain  | replace "." "-" }}-tls
+{{- end }}
+  rules:
+  - host: {{ .Values.global.settings.uiserver_domain }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: uiserver
+            port:
+              number: 80
+{{- else }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -17,7 +49,7 @@ spec:
   - hosts:
     - {{ .Values.global.settings.uiserver_domain }}
     secretName: {{ .Values.global.settings.uiserver_domain  | replace "." "-" }}-tls
-{{- end}}
+{{- end }}
   rules:
   - host: {{ .Values.global.settings.uiserver_domain }}
     http:
@@ -26,4 +58,5 @@ spec:
         backend:
           serviceName: uiserver
           servicePort: http
+{{- end }}
 {{- end }}
