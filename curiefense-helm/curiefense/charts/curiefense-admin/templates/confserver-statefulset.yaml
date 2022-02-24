@@ -33,7 +33,7 @@ spec:
             - name: "IF_NO_CONFIG_INIT_FROM"
               value: "/bootstrap/confdb-initial-data/"
           volumeMounts:
-          - mountPath: /cf-persistent-config
+          - mountPath: /config
             name: persistent-confdb
           command: ["/usr/bin/dumb-init", "/bin/bash", "/bootstrap/bootstrap_config.sh"]
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
@@ -122,7 +122,7 @@ spec:
         - mountPath: /run/secrets/miniocfg
           name: miniocfg
 {{- end }}
-        - mountPath: /cf-persistent-config
+        - mountPath: /config
           name: persistent-confdb
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
         resources:
@@ -173,6 +173,10 @@ spec:
 {{- if .Values.global.tolerations }}
       tolerations:
 {{ toYaml .Values.global.tolerations | indent 8 }}
+{{- end }}
+{{- if .Values.global.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.global.nodeSelector | indent 8 }}
 {{- end }}
   volumeClaimTemplates:
   - metadata:
