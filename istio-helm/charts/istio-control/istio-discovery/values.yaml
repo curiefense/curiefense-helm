@@ -207,7 +207,7 @@ meshConfig:
 
 global:
   # Used to locate istiod.
-  istioNamespace: istio-system
+  istioNamespace: UNUSED3
   # enable pod disruption budget for the control plane, which is used to
   # ensure Istio control plane components are gradually upgraded or recovered.
   defaultPodDisruptionBudget:
@@ -435,7 +435,7 @@ global:
   #     endpoints:
   #     - fromRegistry: reg1
   #     gateways:
-  #     - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
+  #     - registryServiceName: "istio-ingressgateway.istio-system.svc.cluster.local"
   #       port: 443
   #
   meshNetworks: {}

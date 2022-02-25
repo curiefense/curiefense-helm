@@ -3537,7 +3537,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-reader-service-account
-  namespace: istio-system
+  namespace: {{ .Release.Namespace }}
   labels:
     app: istio-reader
     release: istio
@@ -3548,7 +3548,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istiod-service-account
-  namespace: istio-system
+  namespace: {{ .Release.Namespace }}
   labels:
     app: istiod
     release: istio
@@ -3558,7 +3558,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: istiod-istio-system
+  name: istiod-{{ .Release.Namespace }}
   labels:
     app: istiod
     release: istio
@@ -3651,7 +3651,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: istio-reader-istio-system
+  name: istio-reader-{{ .Release.Namespace }}
   labels:
     app: istio-reader
     release: istio
@@ -3691,7 +3691,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-reader-istio-system
+  name: istio-reader-{{ .Release.Namespace }}
   labels:
     app: istio-reader
     release: istio
@@ -3699,17 +3699,17 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-reader-istio-system
+  name: istio-reader-{{ .Release.Namespace }}
 subjects:
   - kind: ServiceAccount
     name: istio-reader-service-account
-    namespace: istio-system
+    namespace: {{ .Release.Namespace }}
 ---
 # Source: base/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: istiod-istio-system
+  name: istiod-{{ .Release.Namespace }}
   labels:
     app: istiod
     release: istio
@@ -3717,18 +3717,18 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istiod-istio-system
+  name: istiod-{{ .Release.Namespace }}
 subjects:
   - kind: ServiceAccount
     name: istiod-service-account
-    namespace: istio-system
+    namespace: {{ .Release.Namespace }}
 ---
 # Source: base/templates/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: istiod-istio-system
-  namespace: istio-system
+  name: istiod-{{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: istiod
     release: istio
@@ -3750,8 +3750,8 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: istiod-istio-system
-  namespace: istio-system
+  name: istiod-{{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: istiod
     release: istio
@@ -3759,17 +3759,17 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: istiod-istio-system
+  name: istiod-{{ .Release.Namespace }}
 subjects:
   - kind: ServiceAccount
     name: istiod-service-account
-    namespace: istio-system
+    namespace: {{ .Release.Namespace }}
 ---
 # Source: base/templates/validatingwebhookconfiguration.yaml
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
-  name: istiod-istio-system
+  name: "istiod-{{ .Release.Namespace }}"
   labels:
     app: istiod
     release: istio
@@ -3780,7 +3780,7 @@ webhooks:
     clientConfig:
       service:
         name: istiod
-        namespace: istio-system
+        namespace: "{{ .Release.Namespace }}"
         path: "/validate"
       caBundle: "" # patched at runtime when the webhook is ready.
     rules:

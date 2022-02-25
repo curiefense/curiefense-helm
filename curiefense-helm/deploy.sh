@@ -9,6 +9,7 @@ if [ -z "$DOCKER_TAG" ]; then
     DOCKER_TAG="$GITTAG-$DOCKER_DIR_HASH"
 fi
 
+CURIEFENSE_NAMESPACE=${CURIEFENSE_NAMESPACE:-curiefense}
 PARAMS=()
 
 if [ -n "$NOPULL" ]; then
@@ -23,13 +24,13 @@ else
 fi
 
 # shellcheck disable=SC2086
-if ! helm upgrade --install --namespace curiefense --reuse-values \
+if ! helm upgrade --install --namespace "$CURIEFENSE_NAMESPACE" --reuse-values \
     --set "global.settings.docker_tag=$DOCKER_TAG" \
     --wait --timeout 600s --create-namespace \
     "${PARAMS[@]}" "$@" curiefense curiefense/
 then
     echo "curiefense deployment failure... "
-    kubectl --namespace curiefense describe pods
+    kubectl --namespace "$CURIEFENSE_NAMESPACE" describe pods
 
     # Template generation
     helm template --debug --set "global.settings.docker_tag=$DOCKER_TAG" "${PARAMS[@]}" "$@" curiefense curiefense/

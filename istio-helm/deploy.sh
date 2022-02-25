@@ -9,6 +9,7 @@ if [ -z "$DOCKER_TAG" ]; then
     DOCKER_TAG="$GITTAG-$DOCKER_DIR_HASH"
 fi
 
+ISTIO_NAMESPACE=${ISTIO_NAMESPACE:-istio-system}
 PARAMS=()
 
 if [ -n "$NOPULL" ]; then
@@ -19,18 +20,18 @@ if [ -n "$JWT_WORKAROUND" ]; then
     PARAMS+=("-f" "charts/first-party-jwt.yaml")
 fi
 # Install the Istio base chart which contains cluster-wide resources used by the Istio control plane
-helm upgrade istio-base charts/base -n istio-system --install \
+helm upgrade istio-base charts/base -n "$ISTIO_NAMESPACE" --install \
     --wait --timeout 600s --create-namespace
 
 # Install the Istio discovery chart which deploys the istiod service
 helm upgrade istiod charts/istio-control/istio-discovery \
     "${PARAMS[@]}" \
     --wait --timeout 600s \
-    -n istio-system --install
+    -n "$ISTIO_NAMESPACE" --install
 
 # shellcheck disable=SC2086
 if ! helm upgrade istio-ingress charts/gateways/istio-ingress \
-    --install --namespace istio-system --reuse-values --debug \
+    --install --namespace "$ISTIO_NAMESPACE" --reuse-values --debug \
     -f charts/enable-waf-ingress.yaml \
     -f charts/first-party-jwt.yaml \
     "${PARAMS[@]}" \
@@ -39,6 +40,6 @@ if ! helm upgrade istio-ingress charts/gateways/istio-ingress \
     --set "global.proxy.curiesync_image=curiefense/curiesync:$DOCKER_TAG" "$@"
 then
     echo "istio deployment failure... "
-    kubectl --namespace istio-system describe pods
+    kubectl --namespace "$ISTIO_NAMESPACE" describe pods
     # TODO(flaper87): Print logs from failed PODs
 fi

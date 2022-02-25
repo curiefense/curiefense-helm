@@ -4,7 +4,7 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app: istiod
     istio.io/rev: default
@@ -25,7 +25,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
@@ -40,12 +40,12 @@ data:
 
   mesh: |-
     defaultConfig:
-      discoveryAddress: istiod.istio-system.svc:15012
+      discoveryAddress: "istiod.{{ .Release.Namespace }}.svc:15012"
       tracing:
         zipkin:
-          address: zipkin.istio-system:9411
+          address: "zipkin.{{ .Release.Namespace }}:9411"
     enablePrometheusMerge: true
-    rootNamespace: istio-system
+    rootNamespace: "{{ .Release.Namespace }}"
     trustDomain: cluster.local
 ---
 # Source: istio-discovery/templates/istiod-injector-configmap.yaml
@@ -53,7 +53,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-sidecar-injector
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
@@ -78,7 +78,7 @@ data:
         "hub": "gcr.io/istio-testing",
         "imagePullPolicy": "",
         "imagePullSecrets": [],
-        "istioNamespace": "istio-system",
+        "istioNamespace": "{{ .Release.Namespace }}",
         "istiod": {
           "enableAnalysis": false
         },
@@ -187,7 +187,8 @@ data:
         "rewriteAppHTTPProbe": true,
         "templates": {},
         "useLegacySelectors": true
-      }
+      },
+      "namespace": "{{ .Release.Namespace }}",
     }
 
   # To disable injection: use omitSidecarInjectorConfigMap, which disables the webhook patching
@@ -429,7 +430,7 @@ data:
             {{- if .Values.global.caAddress }}
               value: {{ .Values.global.caAddress }}
             {{- else }}
-              value: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}.{{ .Values.global.istioNamespace }}.svc:15012
+              value: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}.{{ .Release.Namespace }}.svc:15012
             {{- end }}
             - name: POD_NAME
               valueFrom:
@@ -758,7 +759,7 @@ data:
             {{- if .Values.global.caAddress }}
               value: {{ .Values.global.caAddress }}
             {{- else }}
-              value: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}.{{ .Values.global.istioNamespace }}.svc:15012
+              value: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}.{{ .Release.Namespace }}.svc:15012
             {{- end }}
             - name: POD_NAME
               valueFrom:
@@ -940,7 +941,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
@@ -975,7 +976,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app: istiod
     istio.io/rev: default
@@ -1066,7 +1067,7 @@ spec:
           - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
             value: "true"
           - name: ISTIOD_ADDR
-            value: istiod.istio-system.svc:15012
+            value: "istiod.{{ .Release.Namespace }}.svc:15012"
           - name: PILOT_ENABLE_ANALYSIS
             value: "false"
           - name: CLUSTER_ID
@@ -1136,7 +1137,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     app: istiod
     release: istio
@@ -1163,7 +1164,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: metadata-exchange-1.8
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
@@ -1258,7 +1259,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: tcp-metadata-exchange-1.8
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1318,7 +1319,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: stats-filter-1.8
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1428,7 +1429,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: tcp-stats-filter-1.8
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1531,7 +1532,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: metadata-exchange-1.9
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
@@ -1626,7 +1627,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: tcp-metadata-exchange-1.9
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1686,7 +1687,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: stats-filter-1.9
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1826,7 +1827,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: tcp-stats-filter-1.9
-  namespace: istio-system
+  namespace: "{{ .Release.Namespace }}"
   labels:
     istio.io/rev: default
     app.kubernetes.io/part-of: "curiefense"
@@ -1970,7 +1971,7 @@ webhooks:
   clientConfig:
     service:
       name: istiod
-      namespace: istio-system
+      namespace: "{{ .Release.Namespace }}"
       path: "/inject"
     caBundle: ""
   sideEffects: None

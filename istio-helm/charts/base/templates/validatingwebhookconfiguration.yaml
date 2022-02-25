@@ -2,7 +2,7 @@
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
-  name: istiod-{{ .Values.global.istioNamespace }}
+  name: istiod-{{ .Release.Namespace }}
   labels:
     app: istiod
     release: {{ .Release.Name }}
@@ -16,7 +16,7 @@ webhooks:
       {{- else }}
       service:
         name: istiod
-        namespace: {{ .Values.global.istioNamespace }}
+        namespace: {{ .Release.Namespace }}
         path: "/validate"
       {{- end }}
       caBundle: "" # patched at runtime when the webhook is ready.
