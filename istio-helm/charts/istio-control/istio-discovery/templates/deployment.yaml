@@ -10,6 +10,7 @@ metadata:
     operator.istio.io/component: "Pilot"
     istio: pilot
     release: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "curiefense"
 {{- range $key, $val := .Values.pilot.deploymentLabels }}
     {{ $key }}: "{{ $val }}"
 {{- end }}
@@ -39,6 +40,7 @@ spec:
         install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
         sidecar.istio.io/inject: "false"
         operator.istio.io/component: "Pilot"
+        app.kubernetes.io/part-of: "curiefense"
         {{- if ne .Values.revision "" }}
         istio: istiod
         {{- else }}
