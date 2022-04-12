@@ -108,6 +108,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: destinationrules.networking.istio.io
 spec:
   group: networking.istio.io
@@ -2469,6 +2470,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: envoyfilters.networking.istio.io
 spec:
   group: networking.istio.io
@@ -2708,6 +2710,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: gateways.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3033,6 +3036,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: serviceentries.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3308,6 +3312,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: sidecars.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3677,6 +3682,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: virtualservices.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5202,6 +5208,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: workloadentries.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5331,6 +5338,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: workloadgroups.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5659,6 +5667,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: authorizationpolicies.security.istio.io
 spec:
   group: security.istio.io
@@ -5867,6 +5876,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: peerauthentications.security.istio.io
 spec:
   group: security.istio.io
@@ -5960,6 +5970,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: requestauthentications.security.istio.io
 spec:
   group: security.istio.io
@@ -6309,6 +6320,7 @@ metadata:
   name: istiooperators.install.istio.io
   labels:
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   conversion:
     strategy: None
@@ -6363,6 +6375,7 @@ metadata:
   labels:
     app: istio-reader
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 ---
 # Source: base/templates/serviceaccount.yaml
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -6378,6 +6391,7 @@ metadata:
   labels:
     app: istiod
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 ---
 # Source: base/templates/clusterrole.yaml
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -6392,6 +6406,7 @@ metadata:
   labels:
     app: istiod
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 rules:
   # sidecar injection controller
   - apiGroups: ["admissionregistration.k8s.io"]
@@ -6497,6 +6512,7 @@ metadata:
   labels:
     app: istio-reader
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 rules:
   - apiGroups:
       - "config.istio.io"
@@ -6547,6 +6563,7 @@ metadata:
   labels:
     app: istio-reader
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -6564,6 +6581,7 @@ metadata:
   labels:
     app: istiod
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -6587,6 +6605,7 @@ metadata:
   labels:
     app: istiod
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 rules:
 # permissions to verify the webhook is ready and rejecting
 # invalid config. We use --server-dry-run so no config is persisted.
@@ -6614,6 +6633,7 @@ metadata:
   labels:
     app: istiod
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -6633,6 +6653,7 @@ metadata:
     release: istio
     istio: istiod
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 webhooks:
   - name: validation.istio.io
     clientConfig:
