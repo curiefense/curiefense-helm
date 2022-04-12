@@ -11,6 +11,7 @@ metadata:
     operator.istio.io/component: "Pilot"
     release: {{ .Release.Name }}
     istio: pilot
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   minAvailable: 1
   selector:
