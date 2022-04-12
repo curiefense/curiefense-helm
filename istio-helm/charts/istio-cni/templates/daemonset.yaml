@@ -12,6 +12,7 @@ metadata:
     istio.io/rev: {{ .Values.revision | default "default" }}
     install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
     operator.istio.io/component: "Cni"
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   selector:
     matchLabels:
@@ -25,6 +26,7 @@ spec:
       labels:
         k8s-app: istio-cni-node
         sidecar.istio.io/inject: "false"
+        app.kubernetes.io/part-of: "curiefense"
       annotations:
         # This, along with the CriticalAddonsOnly toleration below,
         # marks the pod as a critical add-on, ensuring it gets
