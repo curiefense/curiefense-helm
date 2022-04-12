@@ -12,6 +12,7 @@ metadata:
     operator.istio.io/component: "Pilot"
     release: istio
     istio: pilot
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   minAvailable: 1
   selector:
@@ -40,6 +41,7 @@ metadata:
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 data:
 
   # Configuration file for the mesh networks to be used by the Split Horizon EDS.
@@ -67,6 +69,7 @@ metadata:
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 data:
 
   values: |-
@@ -249,6 +252,7 @@ data:
             security.istio.io/tlsMode: {{ index .ObjectMeta.Labels `security.istio.io/tlsMode` | default "istio"  | quote }}
             service.istio.io/canonical-name: {{ index .ObjectMeta.Labels `service.istio.io/canonical-name` | default (index .ObjectMeta.Labels `app.kubernetes.io/name`) | default (index .ObjectMeta.Labels `app`) | default .DeploymentMeta.Name  | quote }}
             service.istio.io/canonical-revision: {{ index .ObjectMeta.Labels `service.istio.io/canonical-revision` | default (index .ObjectMeta.Labels `app.kubernetes.io/version`) | default (index .ObjectMeta.Labels `version`) | default "latest"  | quote }}
+            app.kubernetes.io/part-of: "curiefense"
           annotations: {
             {{- if eq (len $containers) 1 }}
             kubectl.kubernetes.io/default-logs-container: "{{ index $containers 0 }}",
@@ -696,6 +700,7 @@ data:
             service.istio.io/canonical-name: {{ index .ObjectMeta.Labels `service.istio.io/canonical-name` | default (index .ObjectMeta.Labels `app.kubernetes.io/name`) | default (index .ObjectMeta.Labels `app`) | default .DeploymentMeta.Name  | quote }}
             service.istio.io/canonical-revision: {{ index .ObjectMeta.Labels `service.istio.io/canonical-revision` | default (index .ObjectMeta.Labels `app.kubernetes.io/version`) | default (index .ObjectMeta.Labels `version`) | default "latest"  | quote }}
             istio.io/rev: {{ .Revision | default "default" | quote }}
+            app.kubernetes.io/part-of: "curiefense"
           annotations: {
             {{- if eq (len $containers) 1 }}
             kubectl.kubernetes.io/default-logs-container: "{{ index $containers 0 }}",
@@ -1477,6 +1482,7 @@ metadata:
     app: istiod
     istio: pilot
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   ports:
     - port: 15010
@@ -1511,6 +1517,7 @@ metadata:
     operator.istio.io/component: "Pilot"
     istio: pilot
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   strategy:
     rollingUpdate:
@@ -1528,6 +1535,7 @@ spec:
         sidecar.istio.io/inject: "false"
         operator.istio.io/component: "Pilot"
         istio: pilot
+        app.kubernetes.io/part-of: "curiefense"
       annotations:
         prometheus.io/port: "15014"
         prometheus.io/scrape: "true"
@@ -1657,6 +1665,7 @@ metadata:
     istio.io/rev: default
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   maxReplicas: 5
   minReplicas: 1
@@ -1684,6 +1693,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: HTTP_FILTER
@@ -1808,6 +1818,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: NETWORK_FILTER
@@ -1924,6 +1935,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: HTTP_FILTER
@@ -2048,6 +2060,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: NETWORK_FILTER
@@ -2164,6 +2177,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: HTTP_FILTER
@@ -2288,6 +2302,7 @@ metadata:
   namespace: istio-system
   labels:
     istio.io/rev: default
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   configPatches:
     - applyTo: NETWORK_FILTER
@@ -2406,6 +2421,7 @@ metadata:
     operator.istio.io/component: "Pilot"
     app: sidecar-injector
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 webhooks:
 - name: rev.namespace.sidecar-injector.istio.io
   clientConfig:
