@@ -4,6 +4,7 @@ metadata:
   namespace: {{.Release.Namespace}}
   labels:
     name: istio-operator
+    app.kubernetes.io/part-of: "curiefense"
   name: istio-operator{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}
 spec:
   ports:
