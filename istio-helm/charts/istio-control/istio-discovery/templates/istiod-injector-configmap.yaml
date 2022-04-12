@@ -9,7 +9,6 @@ metadata:
     install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
     operator.istio.io/component: "Pilot"
     release: {{ .Release.Name }}
-    app.kubernetes.io/part-of: "curiefense"
 data:
 {{/* Scope the values to just top level fields used in the template, to reduce the size. */}}
   values: |-
@@ -52,6 +51,14 @@ data:
 {{- if not (hasKey .Values.sidecarInjectorWebhook.templates "gateway") }}
       gateway: |
 {{ .Files.Get "files/gateway-injection-template.yaml" | trim | indent 8 }}
+{{- end }}
+{{- if not (hasKey .Values.sidecarInjectorWebhook.templates "grpc-simple") }}
+      grpc-simple: |
+{{ .Files.Get "files/grpc-simple.yaml" | trim | indent 8 }}
+{{- end }}
+{{- if not (hasKey .Values.sidecarInjectorWebhook.templates "grpc-agent") }}
+      grpc-agent: |
+{{ .Files.Get "files/grpc-agent.yaml" | trim | indent 8 }}
 {{- end }}
 {{- with .Values.sidecarInjectorWebhook.templates }}
 {{ toYaml . | trim | indent 6 }}
