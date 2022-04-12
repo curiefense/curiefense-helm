@@ -2,6 +2,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: istio-operator{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}
+  labels:
+    app.kubernetes.io/part-of: "curiefense"
 subjects:
 - kind: ServiceAccount
   name: istio-operator{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}
