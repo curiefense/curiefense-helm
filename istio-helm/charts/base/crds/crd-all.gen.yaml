@@ -106,6 +106,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: destinationrules.networking.istio.io
 spec:
   group: networking.istio.io
@@ -2467,6 +2468,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: envoyfilters.networking.istio.io
 spec:
   group: networking.istio.io
@@ -2706,6 +2708,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: gateways.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3031,6 +3034,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: serviceentries.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3306,6 +3310,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: sidecars.networking.istio.io
 spec:
   group: networking.istio.io
@@ -3675,6 +3680,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: virtualservices.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5200,6 +5206,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: workloadentries.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5329,6 +5336,7 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: workloadgroups.networking.istio.io
 spec:
   group: networking.istio.io
@@ -5657,6 +5665,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: authorizationpolicies.security.istio.io
 spec:
   group: security.istio.io
@@ -5865,6 +5874,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: peerauthentications.security.istio.io
 spec:
   group: security.istio.io
@@ -5958,6 +5968,7 @@ metadata:
     heritage: Tiller
     istio: security
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
   name: requestauthentications.security.istio.io
 spec:
   group: security.istio.io
