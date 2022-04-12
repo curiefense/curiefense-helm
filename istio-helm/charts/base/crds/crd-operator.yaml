@@ -5,6 +5,7 @@ metadata:
   name: istiooperators.install.istio.io
   labels:
     release: istio
+    app.kubernetes.io/part-of: "curiefense"
 spec:
   conversion:
     strategy: None
