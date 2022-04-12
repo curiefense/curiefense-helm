@@ -7,6 +7,7 @@ gateways:
     labels:
       app: istio-ingressgateway
       istio: ingressgateway
+      app.kubernetes.io/part-of: "curiefense"
     ports:
     ## You can add custom gateway ports in user values overrides, but it must include those ports since helm replaces.
     # Note that AWS ELB will by default perform health checks on the first port
@@ -25,6 +26,9 @@ gateways:
       name: https
       protocol: TCP
 
+   waf:
+      enabled: false
+
     # Scalability tuning
     # replicaCount: 1
     rollingMaxSurge: 100%
@@ -42,7 +46,7 @@ gateways:
         memory: 128Mi
       limits:
         cpu: 2000m
-        memory: 1024Mi
+        memory: 2048Mi
 
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
@@ -156,10 +160,10 @@ global:
   # Default hub for Istio images.
   # Releases are published to docker hub under 'istio' project.
   # Dev builds from prow are on gcr.io
-  hub: gcr.io/istio-testing
+  hub: docker.io/istio
 
   # Default tag for Istio images.
-  tag: latest
+  tag: 1.13.2
 
   # Specify image pull policy if default behavior isn't desired.
   # Default behavior: latest images will be Always else IfNotPresent.
@@ -217,6 +221,23 @@ global:
     # Log level for proxy, applies to gateways and sidecars.
     # Expected values are: trace|debug|info|warning|error|critical|off
     logLevel: warning
+    gw_image: curiefense/curieproxy-istio
+    curiesync_image: curiefense/curiesync
+    curieconf_manifest_url: "s3://curiefense-test01/prod/manifest.json"
+    # allowed values: "s3", "gs", "local-bucket", "minio"
+    curiefense_bucket_type: "s3"
+    # minio hostname and port, when curiefense_bucket_type is minio
+    curiefense_minio_host: "minio.curiefense:9000"
+    # set to true to disable TLS for minio, for testing environments
+    curiefense_minio_insecure: false
+    # namespace where curiefense components are running (redis, curielogger)
+    curiefense_namespace: "curiefense"
+    # typically "redis.$curiefense_namespace", can be changed to use an external redis instance
+    redis_host: "redis.curiefense"
+    redis_port: 6379
+    # valid values: true  = pull initial config from bucket then start gateway
+    #               false = start gateway with a bootstrap config without waiting for the config from the bucket
+    initial_curieconf_pull: true
 
   ##############################################################################################
   # The following values are found in other charts. To effectively modify these values, make   #
