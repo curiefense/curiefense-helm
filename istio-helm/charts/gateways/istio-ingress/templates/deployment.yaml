@@ -203,11 +203,12 @@ spec:
 {{- else }}
           image: "{{ $.Values.global.hub }}/{{ $.Values.global.proxy.gw_image }}:{{ $.Values.global.tag }}"
 {{- end }}
-{{- end }}
+{{- else }}
 {{- if contains "/" .Values.global.proxy.image }}
           image: "{{ .Values.global.proxy.image }}"
 {{- else }}
           image: "{{ .Values.global.hub }}/{{ .Values.global.proxy.image | default "proxyv2" }}:{{ .Values.global.tag }}"
+{{- end }}
 {{- end }}
 {{- if .Values.global.imagePullPolicy }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
