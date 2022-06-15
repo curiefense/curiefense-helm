@@ -333,6 +333,12 @@ spec:
             value: "{{ $.Values.global.proxy.redis_host }}"
           - name: REDIS_PORT
             value: "{{ $.Values.global.proxy.redis_port }}"
+          {{- if $.Values.global.proxy.redis_password }}
+          - name: REDIS_PASSWORD
+            value: "{{ $.Values.global.proxy.redis_password }}"
+          {{- end }}
+          - name: REDIS_DB
+            value: "{{ $.Values.global.proxy.redis_db }}"
           {{- end }}
           {{- range $key, $val := $gateway.env }}
           - name: {{ $key }}

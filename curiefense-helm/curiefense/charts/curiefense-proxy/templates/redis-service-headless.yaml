@@ -1,3 +1,4 @@
+{{- if .Values.global.enable.redis }}
 ---
 # a headless service is required for StatefulSets
 apiVersion: v1
@@ -16,3 +17,4 @@ spec:
   clusterIP: None
   selector:
     app.kubernetes.io/name: redis
+{{- end }}
