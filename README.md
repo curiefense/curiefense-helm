@@ -4,12 +4,13 @@ Helm charts for the Curiefense project
 ## Update instructions
 ### Helm packaging
 * Choose a new chart version identifier (1.5.4 here)
-* Tag commit, push the tag
+* Update the value of `appVersion` in `curiefense-helm/curiefense/Chart.yaml`
+* Commit, push, tag commit, push the tag
 ```
 git tag -a curiefense-1.5.4 -m "Bump curiefense chart to version 1.5.4"
 git push origin curiefense-1.5.4
 ```
-* Generate helm package, make sure app-version is the same as in `curiefense-helm/curiefense/Chart.yaml`
+* Generate helm package
 ```
 helm package curiefense-helm/curiefense --app-version 1.5.0 --version 1.5.4
 ```
