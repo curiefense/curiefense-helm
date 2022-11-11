@@ -3,6 +3,15 @@ entries:
   curiefense:
   - apiVersion: v1
     appVersion: 1.5.0
+    created: "2022-11-11T12:45:58.146540038+01:00"
+    description: Complete curiefense deployment
+    digest: 5f83a1820676af661835706550ceabee1a60e1a06fddad6ff2593dae2d378a19
+    name: curiefense
+    urls:
+    - https://github.com/curiefense/curiefense-helm/releases/download/curiefense-1.5.6/curiefense-1.5.6.tgz
+    version: 1.5.6
+  - apiVersion: v1
+    appVersion: 1.5.0
     created: "2022-10-21T21:56:52.625809921+09:00"
     description: Complete curiefense deployment
     digest: 793a67b3d0051495edfa262fba25f7eebe374ac0a1e238e290860792d43aa7b1
@@ -91,4 +100,4 @@ entries:
     urls:
     - https://github.com/curiefense/curiefense-helm/releases/download/curiefense-1.0.0/curiefense-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-21T21:56:52.624662133+09:00"
+generated: "2022-11-11T12:45:58.146079543+01:00"
