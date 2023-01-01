@@ -2,6 +2,23 @@
 Helm charts for the Curiefense project
 
 ## Update instructions
+### Update to newer upstream istio version
+* Update the `curieproxy-istio` in <https://github.com/curiefense/curiefense>, submit it as a PR if the test at the end of this section succeds. Build it locally.
+* Download the istio release from <https://github.com/istio/istio/releases/tag/VERSION>
+* Extract it
+* Use a diffing tool (ex. meld) to compare the `istio-<VERSION>/manifests/` folder of the newer release, and this repository's `istio-helm` folder
+* Make both folders as similar as possible, keeping only curiefense-specific contents. For example:
+  * `waf` value in `charts/gateways/istio-egress/values.yaml` and `charts/gateways/istio-ingress/values.yaml`
+  * memory limit bump to 2048 Mi in `charts/gateways/istio-ingress/values.yaml`
+  * `externalTrafficPolicy` in `gateways/istio-ingress/values.yaml`
+  * curiefense-related values in the `proxy:` section of `gateways/istio-ingress/values.yaml`
+  * EnvoyFilters `curiefense_access_logs_filter` and `curiefense_lua_filter` in `charts/gateways/istio-ingress/templates/`
+  * curiefense-related settings in `charts/gateways/istio-ingress/templates/deployment.yaml`
+* Update `istio-helm/README.md`
+* Do a local minikube deployment following <https://docs.curiefense.io/installation/deployment-first-steps/istio-via-helm>, replacing the image of the ingress proxy with the one built in the first step of this section
+* Open PRs to both <https://github.com/curiefense/curiefense> (image update) and <https://github.com/curiefense/curiefense> (charts update)
+* Prepare Helm packaging following the instructions below, do the release once the first 2 PRs have been merged.
+
 ### Helm packaging
 * Choose a new chart version identifier (1.5.4 here)
 * Update the value of `appVersion` in `curiefense-helm/curiefense/Chart.yaml`
