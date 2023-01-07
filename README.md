@@ -16,7 +16,8 @@ Helm charts for the Curiefense project
   * curiefense-related settings in `charts/gateways/istio-ingress/templates/deployment.yaml`
 * Update `istio-helm/README.md`
 * Do a local minikube deployment following <https://docs.curiefense.io/installation/deployment-first-steps/istio-via-helm>, replacing the image of the ingress proxy with the one built in the first step of this section
-* Open PRs to both <https://github.com/curiefense/curiefense> (image update) and <https://github.com/curiefense/curiefense> (charts update)
+* Update the `deploy/istio-helm/charts` folder of <https://github.com/curiefense/curiefense> so that its contents is the same as this repo's `istio-helm/charts/` folder
+* Open PRs to both <https://github.com/curiefense/curiefense> (image update, deploy/istio-helm/) and <https://github.com/curiefense/curiefense> (charts update)
 * Prepare Helm packaging following the instructions below, do the release once the first 2 PRs have been merged.
 
 ### Helm packaging
