@@ -32,9 +32,13 @@ spec:
           env:
             - name: "IF_NO_CONFIG_INIT_FROM"
               value: "/bootstrap/confdb-initial-data/"
+            - name: "CURIECONF_GIT_SSH_KEY_PATH"
+              value: "/run/secrets/sshkey/sshkey"
           volumeMounts:
           - mountPath: /cf-persistent-config
             name: persistent-confdb
+          - mountPath: /run/secrets/sshkey
+            name: sshkey
           command: ["/usr/bin/dumb-init", "/bin/bash", "/bootstrap/bootstrap_config.sh"]
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           resources:
@@ -52,6 +56,8 @@ spec:
           value: "yes"
         - name: CURIE_BUCKET_LINK
           value: {{ .Values.global.settings.curieconf_manifest_url }}
+        - name: "CURIECONF_GIT_SSH_KEY_PATH"
+          value: "/run/secrets/sshkey/sshkey"
 {{- if eq .Values.global.settings.curiefense_bucket_type "minio" }}
         - name: CURIE_MINIO_HOST
           value: {{ .Values.global.settings.curiefense_minio_host }}
@@ -83,6 +89,8 @@ spec:
         - mountPath: /run/secrets/miniocfg
           name: miniocfg
 {{- end }}
+        - mountPath: /run/secrets/sshkey
+          name: sshkey
         - mountPath: /cf-persistent-config
           name: persistent-confdb
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
@@ -128,6 +136,14 @@ spec:
             path: miniocfg
           secretName: miniocfg
 {{- end }}
+      - name: sshkey
+        secret:
+          items:
+          - key: sshkey
+            path: sshkey
+          optional: true
+          defaultMode: 0600
+          secretName: sshkey
 {{- if .Values.global.tolerations }}
       tolerations:
 {{ toYaml .Values.global.tolerations | indent 8 }}
