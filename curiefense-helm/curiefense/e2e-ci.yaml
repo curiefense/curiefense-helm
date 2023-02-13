@@ -5,7 +5,6 @@ global:
       redis: "1m"
       uiserver: "1m"
       confserver-init: "1m"
-      confserver-nginx: "1m"
       confserver-uwsgi: "1m"
 
   storage:

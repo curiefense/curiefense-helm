@@ -40,7 +40,6 @@ global:
       redis: "10m"
       uiserver: "100m"
       confserver_init: "100m"
-      confserver_nginx: "10m"
       confserver_uwsgi: "100m"
       minio_init: "100m"
       minio: "200m"
