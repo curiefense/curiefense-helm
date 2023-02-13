@@ -48,3 +48,4 @@ global:
   enable:
     # set to false to disable parts of this deployment, ex. if you prefer to use your own versions
     minio: true
+    redis: true
