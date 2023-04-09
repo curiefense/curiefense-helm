@@ -4,7 +4,7 @@ metadata:
   namespace: istio-system
 spec:
   hub: docker.io/istio
-  tag: 1.16.1
+  tag: 1.17.2
 
   # You may override parts of meshconfig by uncommenting the following lines.
   meshConfig:

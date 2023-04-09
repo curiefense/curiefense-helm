@@ -1,0 +1,62 @@
+{{- $gateway := index .Values "gateways" "istio-ingressgateway" }}
+{{- if $gateway.waf.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: curiefense-config-reload
+  namespace: {{ .Release.Namespace }}
+spec:
+  workloadSelector:
+    labels:
+      curiefense: "enabled"
+  configPatches:
+  - applyTo: LISTENER
+    match:
+      context: ANY
+    patch:
+      operation: ADD
+      value: # lua filter specification
+        name: config_reload
+        address:
+          socket_address:
+            protocol: TCP
+            address: 0.0.0.0
+            port_value: 8998
+        filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              scheme_header_transformation:
+                scheme_to_overwrite: https
+              stat_prefix: ingress_http_config
+              codec_type: AUTO
+              use_remote_address: true
+              skip_xff_append: false
+              route_config:
+                name: local_route
+              http_filters:
+              - name: envoy.filters.http.lua
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+                  default_source_code:
+                    inline_string: |
+                                      local curiefense = require "curiefense"
+                                      function envoy_on_request(handle)
+                                        local hbody = handle:body()
+                                        local body_content = nil
+                                        if hbody then
+                                            body_content = hbody:getBytes(0, hbody:length())
+                                        end
+                                        local returned = curiefense.lua_reload_conf(body_content)
+                                        if returned then
+                                          handle:logError(returned)
+                                          handle:respond( { [":status"] = "500" }, returned)
+                                        else
+                                          handle:respond( { [":status"] = "200" }, "envoy config reloaded\n")
+                                        end
+                                      end
+              - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+{{- end }}
